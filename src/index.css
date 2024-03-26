@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+body {
+  /* display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column; */
+  background-color: #ffffff;
+  color: #212121;
+  line-height: 1.5;
+  width: 100vw;
+}
+ul,
+li,
+input {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}

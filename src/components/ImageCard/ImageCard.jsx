@@ -1,9 +1,11 @@
 import css from "./ImageCard.module.css";
 
-import React from "react";
-
-const ImageCard = () => {
-  return <div>ImageCard</div>;
+const ImageCard = ({ description, urls }) => {
+  return (
+    <div>
+      <img className={css.galleryImage} src={urls.small} alt={description} />
+    </div>
+  );
 };
 
 export default ImageCard;

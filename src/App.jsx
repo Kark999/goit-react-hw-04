@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-
 import "./App.css";
-import { requestPhotos } from "./services/api";
+import { params, requestPhotos } from "./services/api";
+import Loader from "./components/Loader/Loader";
+import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
 
 // "results": [
 //     {
@@ -22,12 +24,7 @@ import { requestPhotos } from "./services/api";
 //         "thumb": "https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=8aae34cf35df31a592f0bef16e6342ef"
 //       },
 //   ]
-// const params = {
-//   key: "42141224-180b0a56c10fd436e302d680a",
-//   orientation: "horizontal",
-//   page: "",
-//   per_page: 20,
-// };
+//
 
 function App() {
   const [photos, setPhotos] = useState(null);
@@ -38,7 +35,7 @@ function App() {
     async function fetchPhotos() {
       try {
         setIsLoading(true);
-        const data = await requestPhotos();
+        const data = await requestPhotos(params);
         setPhotos(data);
       } catch (error) {
         setErrorMessage(true);
@@ -52,26 +49,9 @@ function App() {
 
   return (
     <div>
-      {isLoading && <loader />}
-      {errorMessage && (
-        <p>Oops, something went wrong! Please reload the page</p>
-      )}
-      <ul className="gallery">
-        {Array.isArray(photos) &&
-          photos.map(({ id, description, urls }) => {
-            return (
-              <li key={id}>
-                <div>
-                  <img
-                    className="galleryImage"
-                    src={urls.small}
-                    alt={description}
-                  />
-                </div>
-              </li>
-            );
-          })}
-      </ul>
+      {isLoading && <Loader />}
+      {errorMessage && <ErrorMessage />}
+      {photos && <ImageGallery photos={photos} />}
     </div>
   );
 }

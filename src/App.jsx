@@ -4,6 +4,7 @@ import { params, requestPhotos } from "./services/api";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 function App() {
   const [photos, setPhotos] = useState(null);
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <div>
+      <SearchBar />
       {isLoading && <Loader />}
       {errorMessage && <ErrorMessage />}
       {photos && <ImageGallery photos={photos} />}

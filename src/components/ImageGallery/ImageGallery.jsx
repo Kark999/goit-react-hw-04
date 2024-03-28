@@ -6,10 +6,10 @@ const ImageGallery = ({ photos }) => {
     <div>
       <ul className={css.gallery}>
         {Array.isArray(photos) &&
-          photos.map(({ id }) => {
+          photos.map(({ id, urls, description }) => {
             return (
               <li key={id}>
-                <ImageCard photos={photos} />
+                <ImageCard urls={urls} description={description} />
               </li>
             );
           })}

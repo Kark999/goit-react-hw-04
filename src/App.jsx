@@ -12,21 +12,21 @@ function App() {
   const [errorMessage, setErrorMessage] = useState(false);
 
   useEffect(() => {
-    async function fetchPhotos() {
+    async function fetchPhotos(searchTerm) {
+      setIsLoading(true);
+
       try {
-        setIsLoading(true);
-        const data = await requestPhotos(params);
+        const data = await requestPhotos({ term: searchTerm, params });
         setPhotos(data);
       } catch (error) {
         setErrorMessage(true);
       } finally {
         setIsLoading(false);
       }
+
+      fetchPhotos();
     }
-
-    fetchPhotos();
   }, []);
-
   return (
     <div>
       <SearchBar />

@@ -1,7 +1,7 @@
 import ImageCard from "../ImageCard/ImageCard";
 import css from "./ImageGallery.module.css";
 
-const ImageGallery = ({ photos }) => {
+const ImageGallery = ({ photos, onImageClick }) => {
   return (
     <div>
       <ul className={css.gallery}>
@@ -9,7 +9,11 @@ const ImageGallery = ({ photos }) => {
           photos.map(({ id, urls, description }) => {
             return (
               <li key={id}>
-                <ImageCard urls={urls} description={description} />
+                <ImageCard
+                  urls={urls}
+                  description={description}
+                  onClick={() => onImageClick(urls.regular)}
+                />
               </li>
             );
           })}

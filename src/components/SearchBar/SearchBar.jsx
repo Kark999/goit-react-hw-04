@@ -1,20 +1,19 @@
 import { useState } from "react";
 import css from "./SearchBar.module.css";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
-const SearchBar = ({ onSubmit }) => {
+const SearchBar = ({ onSubmit, fetchPhotos }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { addToast } = toast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!searchTerm.trim()) {
-      addToast("Please enter a search term.", { icon: "⚠️" });
+      toast.error("Please enter a search term.");
       return;
     }
 
-    onSubmit(searchTerm);
+    fetchPhotos(searchTerm);
   };
 
   const handleChange = (e) => {
@@ -39,7 +38,6 @@ const SearchBar = ({ onSubmit }) => {
           </button>
         </form>
       </header>
-      {/* <Toaster /> */}
     </>
   );
 };

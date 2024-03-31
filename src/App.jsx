@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./AppNew.css";
+import "./App.css";
 import axios from "axios";
 
 const params = {

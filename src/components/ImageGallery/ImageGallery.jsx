@@ -19,18 +19,3 @@ const ImageGallery = ({ photos }) => {
 };
 
 export default ImageGallery;
-
-/* <ul >
-        {Array.isArray(photos) &&
-          photos.map(({ id, urls, description }) => {
-            return (
-              <li key={id}>
-                <ImageCard
-                  urls={urls}
-                  description={description}
-                  onClick={() => onImageClick(urls.regular)}
-                />
-              </li>
-            );
-          })}
-      </ul> */

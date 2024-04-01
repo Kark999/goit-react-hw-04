@@ -8,7 +8,7 @@ export const params = {
   per_page: 12,
 };
 
-export const requestPhotos = async (params, searchTerm) => {
-  const { data } = await axios.get(params.url, { params }, searchTerm);
+export const requestPhotos = async () => {
+  const { data } = await axios.get(params.url, { params });
   return data;
 };

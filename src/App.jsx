@@ -1,31 +1,34 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import axios from "axios";
-
-const params = {
-  client_id: "35YdqMFUVYORJ1_Z6Ti-nFesei5CNrXoMt15-kOzhj8",
-  url: "https://api.unsplash.com/photos/",
-  orientation: "landscape",
-  page: 1,
-  per_page: 12,
-};
+import { requestPhotos } from "./services/api";
+import Loader from "./components/Loader/Loader";
 
 const AppNew = () => {
   const [photos, setPhotos] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchPhotos = async () => {
-      const { data } = await axios.get(params.url, { params });
-      console.log("data: ", data);
-      setPhotos(data.results);
+      try {
+        setIsLoading(true);
+        const data = await requestPhotos();
+        setPhotos(data);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchPhotos();
   }, []);
 
   return (
     <div>
+      {isLoading && <Loader />}
+      {isError && <p>Oops, something went wrong! Please reload the page</p>}
       <ul>
-        {Array.isArray() &&
+        {Array.isArray(photos) &&
           photos.map(({ id, urls, description }) => {
             return (
               <li key={id}>

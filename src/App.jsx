@@ -1,33 +1,48 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { requestPhotos } from "./services/api";
+import { requestPhotosByQuery } from "./services/api";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
 
-const AppNew = () => {
+const App = () => {
   const [photos, setPhotos] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [query, setQuery] = useState("");
-  console.log("query: ", query);
+
+  // useEffect(() => {
+  //   const fetchPhotos = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const data = await requestPhotos();
+  //       setPhotos(data);
+  //     } catch (error) {
+  //       setIsError(true);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchPhotos();
+  // }, []);
 
   useEffect(() => {
-    const fetchPhotos = async () => {
+    if (!query.length) return;
+    const fetchPhotosByQuery = async () => {
       try {
         setIsLoading(true);
-        const data = await requestPhotos();
-        setPhotos(data);
+        const data = await requestPhotosByQuery(query);
         console.log("data: ", data);
+        setPhotos(data.results);
       } catch (error) {
         setIsError(true);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchPhotos();
-  }, []);
+    fetchPhotosByQuery();
+  }, [query]);
 
   const onsearchQuery = (searchTerm) => {
     setQuery(searchTerm);
@@ -43,4 +58,4 @@ const AppNew = () => {
   );
 };
 
-export default AppNew;
+export default App;

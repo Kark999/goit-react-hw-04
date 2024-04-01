@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { requestPhotos } from "./services/api";
 import Loader from "./components/Loader/Loader";
+import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
 const AppNew = () => {
   const [photos, setPhotos] = useState(null);
@@ -26,7 +27,7 @@ const AppNew = () => {
   return (
     <div>
       {isLoading && <Loader />}
-      {isError && <p>Oops, something went wrong! Please reload the page</p>}
+      {isError && <ErrorMessage />}
       <ul>
         {Array.isArray(photos) &&
           photos.map(({ id, urls, description }) => {

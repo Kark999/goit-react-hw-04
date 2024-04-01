@@ -14,8 +14,8 @@ export const params = {
 //   return data;
 // };
 
-export const requestPhotosByQuery = async (query = "") => {
-  const updatedParams = { ...params, query };
+export const requestPhotosByQuery = async (query = "", page) => {
+  const updatedParams = { ...params, query, page };
   const { data } = await axios.get(updatedParams.url, {
     params: updatedParams,
   });

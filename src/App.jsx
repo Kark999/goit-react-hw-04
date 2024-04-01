@@ -5,36 +5,27 @@ import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 
 const App = () => {
   const [photos, setPhotos] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [query, setQuery] = useState("");
-
-  // useEffect(() => {
-  //   const fetchPhotos = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const data = await requestPhotos();
-  //       setPhotos(data);
-  //     } catch (error) {
-  //       setIsError(true);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   fetchPhotos();
-  // }, []);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (!query.length) return;
     const fetchPhotosByQuery = async () => {
       try {
         setIsLoading(true);
-        const data = await requestPhotosByQuery(query);
+        const data = await requestPhotosByQuery(query, page);
         console.log("data: ", data);
-        setPhotos(data.results);
+        if (page === 1) {
+          setPhotos(data.results);
+        } else {
+          setPhotos((prevPhotos) => [...prevPhotos, ...data.results]);
+        }
       } catch (error) {
         setIsError(true);
       } finally {
@@ -42,10 +33,14 @@ const App = () => {
       }
     };
     fetchPhotosByQuery();
-  }, [query]);
+  }, [query, page]);
 
   const onsearchQuery = (searchTerm) => {
     setQuery(searchTerm);
+    setPage(1);
+  };
+  const onLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
   };
 
   return (
@@ -54,6 +49,7 @@ const App = () => {
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
       {photos && <ImageGallery photos={photos} />}
+      {photos && <LoadMoreBtn onLoadMore={onLoadMore} />}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import "./App.css";
 import { requestPhotos } from "./services/api";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
 
 const AppNew = () => {
   const [photos, setPhotos] = useState(null);
@@ -15,6 +16,7 @@ const AppNew = () => {
         setIsLoading(true);
         const data = await requestPhotos();
         setPhotos(data);
+        console.log("data: ", data);
       } catch (error) {
         setIsError(true);
       } finally {
@@ -28,18 +30,7 @@ const AppNew = () => {
     <div>
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
-      <ul>
-        {Array.isArray(photos) &&
-          photos.map(({ id, urls, description }) => {
-            return (
-              <li key={id}>
-                <div>
-                  <img src={urls.small} alt={description} />
-                </div>
-              </li>
-            );
-          })}
-      </ul>
+      {photos && <ImageGallery photos={photos} />}
     </div>
   );
 };

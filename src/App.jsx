@@ -6,6 +6,11 @@ import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "./components/ImageModal/ImageModal";
+import Modal from "react-modal";
+
+// Встановлюємо елемент App як App елемент для react-modal
+Modal.setAppElement("#root");
 
 const App = () => {
   const [photos, setPhotos] = useState(null);
@@ -13,6 +18,8 @@ const App = () => {
   const [isError, setIsError] = useState(false);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!query.length) return;
@@ -20,7 +27,6 @@ const App = () => {
       try {
         setIsLoading(true);
         const data = await requestPhotosByQuery(query, page);
-        console.log("data: ", data);
         if (page === 1) {
           setPhotos(data.results);
         } else {
@@ -43,13 +49,28 @@ const App = () => {
     setPage((prevPage) => prevPage + 1);
   };
 
+  const openModal = (image) => {
+    setSelectedImage(image.urls.regular); // Використовуємо regular версію для модального вікна
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <SearchBar onsearchQuery={onsearchQuery} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
-      {photos && <ImageGallery photos={photos} />}
+      {photos && <ImageGallery photos={photos} onImageClick={openModal} />}
       {photos && <LoadMoreBtn onLoadMore={onLoadMore} />}
+      <ImageModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        selectedImage={selectedImage}
+      />
     </div>
   );
 };

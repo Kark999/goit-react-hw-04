@@ -9,7 +9,6 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import Modal from "react-modal";
 
-// Встановлюємо елемент App як App елемент для react-modal
 Modal.setAppElement("#root");
 
 const App = () => {
@@ -50,7 +49,7 @@ const App = () => {
   };
 
   const openModal = (image) => {
-    setSelectedImage(image.urls.regular); // Використовуємо regular версію для модального вікна
+    setSelectedImage(image.urls.regular);
     setIsModalOpen(true);
   };
 

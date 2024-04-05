@@ -61,7 +61,22 @@ const App = () => {
 
   return (
     <div>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster
+        containerStyle={{
+          top: 100,
+        }}
+        toastOptions={{
+          duration: 3000,
+          position: "top-center",
+          reverseOrder: false,
+          style: {
+            background: "red",
+            color: "#fff",
+          },
+        }}
+        position="top-center"
+        reverseOrder={false}
+      />
       <SearchBar onsearchQuery={onsearchQuery} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}

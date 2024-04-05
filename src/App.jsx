@@ -8,6 +8,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import Modal from "react-modal";
+import { Toaster } from "react-hot-toast";
 
 Modal.setAppElement("#root");
 
@@ -60,6 +61,7 @@ const App = () => {
 
   return (
     <div>
+      <Toaster position="top-center" reverseOrder={false} />
       <SearchBar onsearchQuery={onsearchQuery} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}

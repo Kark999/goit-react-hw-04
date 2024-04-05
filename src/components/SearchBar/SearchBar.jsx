@@ -1,27 +1,21 @@
 import css from "./SearchBar.module.css";
-// import toast from "react-hot-toast";
-
-import * as Yup from "yup";
+import { toast } from "react-hot-toast";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const initialValues = { searchTerm: "" };
 
-const searchFormSchema = Yup.object().shape({
-  searchTerm: Yup.string().required("Search term is required"),
-});
-
 const SearchBar = ({ onsearchQuery }) => {
   const handleSubmit = (values) => {
+    if (!values.searchTerm) {
+      toast.error("Please enter a search term");
+      return;
+    }
     onsearchQuery(values.searchTerm);
   };
 
   return (
     <header className={css.header}>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={searchFormSchema}
-      >
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         <Form className={css.form}>
           <Field
             className={css.field}
